@@ -1,0 +1,640 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>KidsCode Lab - Python Programming Course for Young Minds</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: linear-gradient(135deg, #1e40af 0%, #3b82f6 50%, #60a5fa 100%);
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .language-switcher {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 1000;
+            background: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(10px);
+            border-radius: 25px;
+            padding: 10px 20px;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .language-switcher button {
+            background: none;
+            border: none;
+            font-size: 1rem;
+            cursor: pointer;
+            padding: 8px 15px;
+            border-radius: 15px;
+            transition: all 0.3s ease;
+            margin: 0 5px;
+        }
+
+        .language-switcher button.active {
+            background: linear-gradient(45deg, #1e40af, #3b82f6);
+            color: white;
+        }
+
+        .language-switcher button:hover {
+            transform: translateY(-2px);
+        }
+
+        .header {
+            text-align: center;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 40px;
+            margin-bottom: 30px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            animation: fadeInUp 0.8s ease-out;
+        }
+
+        .brand-logo {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .brand-logo-img {
+            width: 80px;
+            height: 80px;
+            border-radius: 15px;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        .brand-logo-text {
+            font-size: 3rem;
+            font-weight: bold;
+            background: linear-gradient(45deg, #1e40af, #3b82f6);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .header h1 {
+            font-size: 2.5rem;
+            color: #2c3e50;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .header .subtitle {
+            font-size: 1.2rem;
+            color: #7f8c8d;
+            margin-bottom: 20px;
+        }
+
+        .highlight {
+            background: linear-gradient(45deg, #ff6b6b, #feca57);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            font-weight: bold;
+        }
+
+        .main-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            margin-bottom: 40px;
+        }
+
+        .card {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            animation: fadeInUp 0.8s ease-out;
+        }
+
+        .card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 30px 60px rgba(0, 0, 0, 0.15);
+        }
+
+        .card h2 {
+            color: #2c3e50;
+            margin-bottom: 20px;
+            font-size: 1.8rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .card h2::before {
+            content: "🎯";
+            font-size: 1.5rem;
+        }
+
+        .course-features h2::before { content: "✨"; }
+        .instructor h2::before { content: "👨‍🏫"; }
+        .curriculum h2::before { content: "📘"; }
+        .schedule h2::before { content: "🕒"; }
+
+        .feature-list {
+            list-style: none;
+            margin-bottom: 20px;
+        }
+
+        .feature-list li {
+            padding: 8px 0;
+            position: relative;
+            padding-left: 30px;
+        }
+
+        .feature-list li::before {
+            content: "💡";
+            position: absolute;
+            left: 0;
+            top: 8px;
+        }
+
+        .curriculum-section {
+            grid-column: 1 / -1;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 40px;
+            margin-bottom: 30px;
+            animation: fadeInUp 0.8s ease-out;
+        }
+
+        .curriculum-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            margin-top: 30px;
+        }
+
+        .level-card {
+            background: linear-gradient(135deg, #74b9ff 0%, #0984e3 100%);
+            color: white;
+            padding: 25px;
+            border-radius: 15px;
+            transition: transform 0.3s ease;
+        }
+
+        .level-card:hover {
+            transform: scale(1.05);
+        }
+
+        .level-card h3 {
+            margin-bottom: 15px;
+            font-size: 1.5rem;
+        }
+
+        .level-description {
+            line-height: 1.8;
+            margin-bottom: 20px;
+        }
+
+        .level-highlights {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 15px;
+            border-radius: 10px;
+            margin-top: 15px;
+        }
+
+        .level-highlights h4 {
+            margin-bottom: 10px;
+            font-size: 1.1rem;
+        }
+
+        .cta-section {
+            text-align: center;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 40px;
+            animation: fadeInUp 0.8s ease-out;
+        }
+
+        .cta-button {
+            background: linear-gradient(45deg, #1e40af, #3b82f6);
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            font-size: 1.2rem;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+            margin: 10px;
+            box-shadow: 0 10px 20px rgba(30, 64, 175, 0.3);
+        }
+
+        .cta-button:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px rgba(30, 64, 175, 0.4);
+        }
+
+        .contact-info {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 15px;
+            padding: 20px;
+            margin-top: 20px;
+            color: #2c3e50;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .main-content {
+                grid-template-columns: 1fr;
+            }
+            
+            .curriculum-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .header h1 {
+                font-size: 2rem;
+            }
+            
+            .brand-logo {
+                font-size: 2rem;
+            }
+            
+            .container {
+                padding: 10px;
+            }
+        }
+
+        .floating-elements {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        .floating-code {
+            position: absolute;
+            color: rgba(255, 255, 255, 0.1);
+            font-family: 'Courier New', monospace;
+            font-size: 14px;
+            animation: float 20s infinite linear;
+        }
+
+        @keyframes float {
+            0% {
+                transform: translateY(100vh) rotate(0deg);
+            }
+            100% {
+                transform: translateY(-100px) rotate(360deg);
+            }
+        }
+
+        .hidden {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="language-switcher">
+        <button id="en-btn" class="active" onclick="switchLanguage('en')">English</button>
+        <button id="zh-btn" onclick="switchLanguage('zh')">中文</button>
+    </div>
+
+    <div class="floating-elements">
+        <div class="floating-code" style="left: 10%; animation-delay: 0s;">print("Hello World")</div>
+        <div class="floating-code" style="left: 20%; animation-delay: 2s;">for i in range(10):</div>
+        <div class="floating-code" style="left: 30%; animation-delay: 4s;">if x > 0:</div>
+        <div class="floating-code" style="left: 40%; animation-delay: 6s;">def function():</div>
+        <div class="floating-code" style="left: 50%; animation-delay: 8s;">import pygame</div>
+        <div class="floating-code" style="left: 60%; animation-delay: 10s;">while True:</div>
+        <div class="floating-code" style="left: 70%; animation-delay: 12s;">list = [1,2,3]</div>
+        <div class="floating-code" style="left: 80%; animation-delay: 14s;">x = input()</div>
+        <div class="floating-code" style="left: 90%; animation-delay: 16s;">game_over = False</div>
+    </div>
+
+    <div class="container">
+        <!-- English Content -->
+        <div id="en-content">
+            <div class="header">
+                <div class="brand-logo">
+                    <img src="kidscode-lab-logo.png" alt="KidsCode Lab Logo" class="brand-logo-img">
+                    <div class="brand-logo-text">KidsCode Lab</div>
+                </div>
+                <h1>🔍 <span class="highlight">Python Programming for Young Minds</span></h1>
+                <p class="subtitle">Curious about coding? No experience needed! Designed for Grade 6+ students</p>
+                <p>Step-by-step learning from zero to hero - master programming skills with ease!</p>
+            </div>
+
+            <div class="main-content">
+                <div class="card course-features">
+                    <h2>Course Features</h2>
+                    <ul class="feature-list">
+                        <li>Perfect for complete beginners</li>
+                        <li>Hands-on practice with real projects</li>
+                        <li>Develop logical thinking and problem-solving skills</li>
+                        <li>Small class sizes for personalized attention</li>
+                        <li>Create fun games and useful tools</li>
+                    </ul>
+                </div>
+
+                <div class="card instructor">
+                    <h2>About the Instructor</h2>
+                    <ul class="feature-list">
+                        <li>Professional software developer</li>
+                        <li>Extensive programming education experience</li>
+                        <li>Focus on understanding and practical application</li>
+                        <li>Patient and adaptive teaching approach</li>
+                    </ul>
+                </div>
+
+                <div class="card schedule">
+                    <h2>Class Schedule</h2>
+                    <ul class="feature-list">
+                        <li>8 sessions, 1.5 hours each</li>
+                        <li>Small groups for quality learning</li>
+                        <li>Students need Windows or MacBook</li>
+                        <li>Flexible timing arrangements</li>
+                    </ul>
+                </div>
+
+                <div class="card">
+                    <h2>🎯 Learning Objectives</h2>
+                    <ul class="feature-list">
+                        <li>Master Python programming fundamentals</li>
+                        <li>Develop computational thinking skills</li>
+                        <li>Create interactive games and tools</li>
+                        <li>Build confident problem-solving abilities</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="curriculum-section">
+                <h2 style="text-align: center; margin-bottom: 30px; color: #2c3e50;">📘 Course Curriculum</h2>
+                <div class="curriculum-grid">
+                    <div class="level-card">
+                        <h3>🟢 Foundation Level</h3>
+                        <div class="level-description">
+                            Our foundation course introduces students to the fascinating world of programming through Python. Students begin by understanding how computers work and gradually progress to writing their first programs. They'll learn essential programming concepts like variables, data types, and mathematical operations through interactive exercises and fun challenges.
+                        </div>
+                        <div class="level-highlights">
+                            <h4>Key Learning Areas:</h4>
+                            <p>• Computer fundamentals and Python basics<br>
+                            • Decision making with conditions and loops<br>
+                            • Data organization with lists and file handling<br>
+                            • Project-based learning with text games</p>
+                        </div>
+                        <div class="level-highlights">
+                            <h4>Final Projects:</h4>
+                            <p>Students will create their own Hangman game and design a virtual pet simulator, applying all the concepts they've learned in engaging, interactive projects.</p>
+                        </div>
+                    </div>
+
+                    <div class="level-card">
+                        <h3>🔵 Intermediate Level</h3>
+                        <div class="level-description">
+                            Building on the foundation, our intermediate course takes students into the exciting world of game development and graphical user interfaces. Using PyGame, students learn to create visual games with moving objects, sound effects, and interactive elements. They'll also explore GUI development to create practical applications.
+                        </div>
+                        <div class="level-highlights">
+                            <h4>Key Learning Areas:</h4>
+                            <p>• Game development with PyGame library<br>
+                            • Graphics, animation, and sound integration<br>
+                            • User interface design with tkinter<br>
+                            • API integration and data management</p>
+                        </div>
+                        <div class="level-highlights">
+                            <h4>Final Projects:</h4>
+                            <p>Students will develop a complete space adventure game with collision detection and scoring, plus create practical desktop applications like currency converters and todo list managers.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="cta-section">
+                <h2>Start Your Coding Journey Today!</h2>
+                <p><strong>Give your child the creative power and logical thinking skills for the digital age</strong></p>
+                <div class="contact-info">
+                    <h3>📞 Get In Touch</h3>
+                    <p>📧 Email: quincykong@gmail.com</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Chinese Content -->
+        <div id="zh-content" class="hidden">
+            <div class="header">
+                <div class="brand-logo">
+                    <img src="kidscode-lab-logo.png" alt="KidsCode Lab Logo" class="brand-logo-img">
+                    <div class="brand-logo-text">KidsCode Lab</div>
+                </div>
+                <h1>🔍 <span class="highlight">青少年編程入門班</span></h1>
+                <p class="subtitle">對寫程式有興趣？唔識都唔緊要！專為G6或以上學生設計</p>
+                <p>循序漸進，由零開始學，輕鬆掌握編程技巧！</p>
+            </div>
+
+            <div class="main-content">
+                <div class="card course-features">
+                    <h2>課程特色</h2>
+                    <ul class="feature-list">
+                        <li>適合初學者，無需任何編程基礎</li>
+                        <li>練習 + 小專案，邊學邊做</li>
+                        <li>培養邏輯思維與解難能力</li>
+                        <li>小班教學，互動練習</li>
+                        <li>製作小遊戲和實用工具</li>
+                    </ul>
+                </div>
+
+                <div class="card instructor">
+                    <h2>導師簡介</h2>
+                    <ul class="feature-list">
+                        <li>專業軟件開發人員</li>
+                        <li>豐富的程式教學經驗</li>
+                        <li>著重引導學生理解與應用</li>
+                        <li>耐心細心，因材施教</li>
+                    </ul>
+                </div>
+
+                <div class="card schedule">
+                    <h2>上課安排</h2>
+                    <ul class="feature-list">
+                        <li>共 8 堂，每堂 1.5 小時</li>
+                        <li>小班教學，確保學習質量</li>
+                        <li>需自備 Windows 或 MacBook</li>
+                        <li>彈性時間安排</li>
+                    </ul>
+                </div>
+
+                <div class="card">
+                    <h2>🎯 學習目標</h2>
+                    <ul class="feature-list">
+                        <li>掌握 Python 編程語言基礎</li>
+                        <li>培養程式邏輯與運算思維</li>
+                        <li>學會設計小遊戲和實用工具</li>
+                        <li>建立解決問題的能力</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="curriculum-section">
+                <h2 style="text-align: center; margin-bottom: 30px; color: #2c3e50;">📘 課程內容</h2>
+                <div class="curriculum-grid">
+                    <div class="level-card">
+                        <h3>🟢 基礎班</h3>
+                        <div class="level-description">
+                            基礎課程透過 Python 編程語言，引導學生進入程式設計的奇妙世界。學生首先了解電腦運作原理，然後逐步學習編寫第一個程式。透過互動練習和趣味挑戰，掌握編程的基本概念，包括變數、資料類型和數學運算。
+                        </div>
+                        <div class="level-highlights">
+                            <h4>核心學習範疇：</h4>
+                            <p>• 電腦基礎知識與 Python 入門<br>
+                            • 條件判斷與迴圈運算<br>
+                            • 資料處理與檔案操作<br>
+                            • 專案導向的文字遊戲製作</p>
+                        </div>
+                        <div class="level-highlights">
+                            <h4>期末專案：</h4>
+                            <p>學生將製作自己的猜字遊戲 (Hangman) 和設計虛擬寵物模擬器，將所學概念融入有趣的互動專案中。</p>
+                        </div>
+                    </div>
+
+                    <div class="level-card">
+                        <h3>🔵 進階班</h3>
+                        <div class="level-description">
+                            進階課程建基於基礎知識，帶領學生進入刺激的遊戲開發和圖形使用者介面設計領域。透過 PyGame 函式庫，學生學習製作視覺化遊戲，包括移動物件、音效和互動元素。同時探索 GUI 開發，創建實用的應用程式。
+                        </div>
+                        <div class="level-highlights">
+                            <h4>核心學習範疇：</h4>
+                            <p>• PyGame 遊戲開發技術<br>
+                            • 圖形動畫與音效整合<br>
+                            • tkinter 使用者介面設計<br>
+                            • API 串接與資料管理</p>
+                        </div>
+                        <div class="level-highlights">
+                            <h4>期末專案：</h4>
+                            <p>學生將開發完整的太空冒險遊戲，包含碰撞檢測和計分系統，並創建實用的桌面應用程式如貨幣轉換器和待辦事項管理器。</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="cta-section">
+                <h2>立即開始你的編程之旅！</h2>
+                <p><strong>讓孩子在數位時代擁有創造力和邏輯思維</strong></p>
+                <div class="contact-info">
+                    <h3>📞 聯絡我們</h3>
+                    <p>📧 電郵：quincykong@gmail.com</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function switchLanguage(lang) {
+            const enContent = document.getElementById('en-content');
+            const zhContent = document.getElementById('zh-content');
+            const enBtn = document.getElementById('en-btn');
+            const zhBtn = document.getElementById('zh-btn');
+
+            if (lang === 'en') {
+                enContent.classList.remove('hidden');
+                zhContent.classList.add('hidden');
+                enBtn.classList.add('active');
+                zhBtn.classList.remove('active');
+                document.documentElement.lang = 'en';
+            } else {
+                enContent.classList.add('hidden');
+                zhContent.classList.remove('hidden');
+                enBtn.classList.remove('active');
+                zhBtn.classList.add('active');
+                document.documentElement.lang = 'zh-HK';
+            }
+        }
+
+        // Add smooth scrolling animation
+        document.addEventListener('DOMContentLoaded', function() {
+            const cards = document.querySelectorAll('.card, .curriculum-section, .cta-section');
+            
+            const observerOptions = {
+                threshold: 0.1,
+                rootMargin: '0px 0px -50px 0px'
+            };
+
+            const observer = new IntersectionObserver(function(entries) {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.style.animationDelay = '0s';
+                        entry.target.style.animation = 'fadeInUp 0.8s ease-out forwards';
+                    }
+                });
+            }, observerOptions);
+
+            cards.forEach(card => {
+                observer.observe(card);
+            });
+
+            // Add click animation to CTA buttons
+            const ctaButtons = document.querySelectorAll('.cta-button');
+            ctaButtons.forEach(button => {
+                button.addEventListener('click', function(e) {
+                    const ripple = document.createElement('span');
+                    ripple.style.position = 'absolute';
+                    ripple.style.borderRadius = '50%';
+                    ripple.style.background = 'rgba(255, 255, 255, 0.6)';
+                    ripple.style.transform = 'scale(0)';
+                    ripple.style.animation = 'ripple 0.6s linear';
+                    ripple.style.left = (e.clientX - e.target.offsetLeft) + 'px';
+                    ripple.style.top = (e.clientY - e.target.offsetTop) + 'px';
+                    
+                    this.appendChild(ripple);
+                    
+                    setTimeout(() => {
+                        ripple.remove();
+                    }, 600);
+                });
+            });
+        });
+
+        // Add ripple effect animation
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes ripple {
+                to {
+                    transform: scale(4);
+                    opacity: 0;
+                }
+            }
+        `;
+        document.head.appendChild(style);
+    </script>
+</body>
+</html>
