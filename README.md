@@ -1,2 +1,3 @@
-# python-lesson
-Python Lesson
+# CodeKids-Lab
+## Python Lesson
+### Course Materials
